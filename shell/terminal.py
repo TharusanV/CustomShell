@@ -9,6 +9,7 @@ from rich.text import Text
 #prompt_toolkit library for building powerful interactive command line applications in Python.
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import PathCompleter
+from prompt_toolkit.formatted_text import HTML
 
 import importlib #Dynamically imports plugins/modules at runtime (for extensibility)
 import subprocess #Runs real system commands (like npx, git, npm, etc.)
@@ -26,10 +27,10 @@ def startShell():
     while True:
         try:
             cwd = os.getcwd() # Stores the current dir
-            
-            console.print(f"[bold green]{cwd}> [/]", end="")
-            cmd = session.prompt()
-            
+
+            prompt_str = HTML(f'<b><ansigreen>{cwd}&gt;</ansigreen></b> ')
+            cmd = session.prompt(prompt_str)
+
             handleCommand(cmd)
         except (KeyboardInterrupt, EOFError):
             console.print("\n[red]Session terminated[/]")
